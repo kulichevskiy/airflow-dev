@@ -67,7 +67,15 @@ jobs:
                 export AIRFLOW_IMAGE_NAME=${{ env.IMAGE_TAG }}
                 export AIRFLOW_UID=$(id -u)
                 echo -e "AIRFLOW_UID=$(id -u)" > .env
-                docker login -u "${{ env.DOCKER_USERNAME }}" --password "${{ secrets.DOCKER_PASSWORD }}"
+                
+                git init
+                git remote add origin https://github.com/${{ github.repository }}.git || true
+                git remote set-url origin https://github.com/${{ github.repository }}.git
+                git fetch origin main
+                git reset --hard FETCH_HEAD
+                git clean -df
+
+                echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ env.DOCKER_USERNAME }}" --password-stdin
                 docker pull ${{ env.IMAGE_TAG }}
                 cd airflow
                 docker-compose down
