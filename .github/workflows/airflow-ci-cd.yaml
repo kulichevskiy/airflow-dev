@@ -66,6 +66,7 @@ jobs:
             script: |
                 echo "I'm in!"
                 echo "${{ env.IMAGE_TAG }}"
+                echo -e "AIRFLOW_UID=$(id -u)" > .env
                 docker login -u "${{ env.DOCKER_USERNAME }}" --password "${{ secrets.DOCKER_PASSWORD }}"
                 docker pull ${{ env.IMAGE_TAG }}
                 cd airflow
