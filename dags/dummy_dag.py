@@ -2,8 +2,6 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 
-import pandas as pd
-
 # Define default arguments for the DAG
 default_args = {
     'owner': 'Alex',
