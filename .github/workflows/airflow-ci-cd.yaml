@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-    DOCKER_USERNAME: achevsky
+    USERNAME: achevsky
     IMAGE_NAME: airflow
 
 jobs:
@@ -47,7 +47,7 @@ jobs:
           uses: actions/checkout@v4       
         - name: Build and push Docker image
           env:
-            IMAGE_TAG: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            IMAGE_TAG: ${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           run: |
             echo "Image Tag: ${{ env.IMAGE_TAG }}"
             docker build -t ${{ env.IMAGE_TAG }} .
