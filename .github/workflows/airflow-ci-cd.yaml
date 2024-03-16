@@ -81,14 +81,14 @@ jobs:
                 echo "machine github.com login ${{ env.GIT_USERNAME }} password ${{ secrets.ACCESS_TOKEN }}" > ~/.netrc
                 
                 # Ensure the repository is initialized and set to the correct remote
-                git init
-                git remote add origin https://github.com/${{ github.repository }}.git || true
-                git remote set-url origin https://github.com/${{ github.repository }}.git
+                # git init
+                # git remote add origin https://github.com/${{ github.repository }}.git || true
+                # git remote set-url origin https://github.com/${{ github.repository }}.git
                 
-                # # Fetch and reset to the latest code from the main branch
-                # git fetch --all
-                # git reset --hard origin/main
-                # git clean -fdx
+                # # # Fetch and reset to the latest code from the main branch
+                # # git fetch --all
+                # # git reset --hard origin/main
+                # # git clean -fdx
 
         # - name: Pull the container and restart docker-compose
         #   uses: appleboy/ssh-action@master
