@@ -65,6 +65,7 @@ jobs:
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             script: |
                 export AIRFLOW_IMAGE_NAME=${{ env.IMAGE_TAG }}
+                export AIRFLOW_UID=$(id -u)
                 echo -e "AIRFLOW_UID=$(id -u)" > .env
                 docker login -u "${{ env.DOCKER_USERNAME }}" --password "${{ secrets.DOCKER_PASSWORD }}"
                 docker pull ${{ env.IMAGE_TAG }}
