@@ -83,6 +83,7 @@ jobs:
 
                 sudo docker-compose down
                 sudo docker-compose up --build -d
+        
         - name: Create connections.json file
           uses: appleboy/ssh-action@master
           with:
@@ -91,9 +92,9 @@ jobs:
             port: 22
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             script: |
-                echo '${{ secrets.AIRFLOW_CONNECTIONS }}' > /home/ubuntu/airflow/connections.json
-                
-        - name: Import Airflow connections
+              echo '${{ secrets.AIRFLOW_CONNECTIONS }}' > /home/ubuntu/airflow/connections/connections.json
+  
+        - name: Import Airflow connections and capture output
           uses: appleboy/ssh-action@master
           with:
             host: ${{ secrets.EC2_HOST }}
@@ -101,5 +102,5 @@ jobs:
             port: 22
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             script: |
-                cd /home/ubuntu/airflow
-                docker-compose exec webserver airflow connections import /opt/airflow/connections.json
+              cd /home/ubuntu/airflow
+              sudo docker-compose exec airflow-webserver bash -c "airflow connections import /opt/airflow/connections/connections.json
