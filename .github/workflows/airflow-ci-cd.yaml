@@ -9,10 +9,11 @@ on:
       - main
 
 env:
+    DOCKER_USERNAME: achevsky
     IMAGE_NAME: airflow
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -38,7 +39,7 @@ jobs:
           echo "Running tests..."
 
   deploy:
-    needs: build-and-test
+    needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
@@ -48,4 +49,4 @@ jobs:
           run: |
             docker build -t yourusername/yourimage:${{ github.sha }} .
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-            docker push ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
