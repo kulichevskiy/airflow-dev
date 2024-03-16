@@ -61,6 +61,7 @@ jobs:
           with:
             host: ${{ secrets.EC2_HOST }}
             username: ubuntu
+            port: 22
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             script: |
                 docker login -u "${{ secrets.DOCKER_USERNAME }}" --password "${{ secrets.DOCKER_PASSWORD }}"
