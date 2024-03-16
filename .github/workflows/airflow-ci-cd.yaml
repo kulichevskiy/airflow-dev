@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-    USERNAME: achevsky
+    DOCKER_USERNAME: achevsky
     IMAGE_NAME: airflow
 
 jobs:
@@ -48,16 +48,16 @@ jobs:
         #   uses: actions/checkout@v4       
         # - name: Build and push Docker image
         #   env:
-        #     IMAGE_TAG: ${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        #     IMAGE_TAG: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
         #   run: |
         #     echo "Image Tag: ${{ env.IMAGE_TAG }}"
         #     docker build -t ${{ env.IMAGE_TAG }} .
-        #     echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        #     echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ env.DOCKER_USERNAME }}" --password-stdin
         #     docker push ${{ env.IMAGE_TAG }}
         - name: Deploy to EC2
           uses: appleboy/ssh-action@master
           env:
-            IMAGE_TAG: ${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            IMAGE_TAG: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           with:
             host: ${{ secrets.EC2_HOST }}
             username: ubuntu
@@ -66,9 +66,7 @@ jobs:
             script: |
                 echo "I'm in!"
                 echo "${{ env.IMAGE_TAG }}"
-
-
-                docker login -u "${{ secrets.DOCKER_USERNAME }}" --password "${{ secrets.DOCKER_PASSWORD }}"
+                docker login -u "${{ env.DOCKER_USERNAME }}" --password "${{ secrets.DOCKER_PASSWORD }}"
                 docker pull ${{ env.IMAGE_TAG }}
                 docker-compose down
                 docker-compose up -d
