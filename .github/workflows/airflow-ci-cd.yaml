@@ -68,27 +68,28 @@ jobs:
             # Setup PAT for accessing the private repository
             echo "https://${{ env.GIT_USERNAME }}:${ACCESS_TOKEN}@github.com" > ~/.git-credentials
 
-        # - name: Checkout the code
-        #   uses: appleboy/ssh-action@master
-        #   env:
-        #     IMAGE_TAG: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-        #   with:
-        #     host: ${{ secrets.EC2_HOST }}
-        #     username: ubuntu
-        #     port: 22
-        #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-        #     script: |
-        #         eval $(ssh-agent -s)
-        #         echo "${{ secrets.SSH_PRIVATE_KEY }}" | ssh-add -
-        #         ssh-keyscan github.com >> ~/.ssh/known_hosts
+        - name: Checkout the code
+          uses: appleboy/ssh-action@master
+          env:
+            IMAGE_TAG: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          with:
+            host: ${{ secrets.EC2_HOST }}
+            username: ubuntu
+            port: 22
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            script: |
+                eval $(ssh-agent -s)
+                echo "${{ secrets.SSH_PRIVATE_KEY }}" | ssh-add -
+                ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        #         cd airflow
-        #         git init
-        #         git remote add origin https://github.com/${{ github.repository }}.git || true
-        #         git remote set-url origin https://github.com/${{ github.repository }}.git
-        #         git fetch origin main
-        #         git reset --hard FETCH_HEAD
-        #         git clean -df
+                cd airflow
+                git init
+                git remote add origin https://github.com/${{ github.repository }}.git || true
+                git remote set-url origin https://github.com/${{ github.repository }}.git
+                git fetch origin main
+                git reset --hard FETCH_HEAD
+                git clean -df
+                
         # - name: Pull the container and restart docker-compose
         #   uses: appleboy/ssh-action@master
         #   env:
