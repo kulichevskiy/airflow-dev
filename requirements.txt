@@ -1,0 +1,5 @@
+apache-airflow-providers-amazon
+apache-airflow-providers-google
+pandas
+requests
+s3fs
