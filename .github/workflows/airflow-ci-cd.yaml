@@ -50,6 +50,7 @@ jobs:
             image_tag: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           run: |
             echo "Image Tag: ${{ env.image_tag }}"
+       
         # - name: Build and push Docker image
         #   run: |
         #     docker build -t ${{ env.image_tag }} .
