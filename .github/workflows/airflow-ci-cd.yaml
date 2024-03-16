@@ -72,10 +72,6 @@ jobs:
                 # Navigate to the project directory
                 cd airflow
                 
-                # Configure Git to use HTTPS with the GitHub PAT for authentication
-                git config --global credential.helper 'cache --timeout=300'
-                git config --global user.email "${{ env.EMAIL}}"
-                git config --global user.name "${{ env.NAME }}"
 
         # - name: Pull the container and restart docker-compose
         #   uses: appleboy/ssh-action@master
