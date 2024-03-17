@@ -69,22 +69,19 @@ jobs:
             source: "." # or specify directories/files to copy
             target: "airflow"        
 
-        # - name: Pull the container and restart docker-compose
-        #   uses: appleboy/ssh-action@master
+        - name: Pull the container and restart docker-compose
+          uses: appleboy/ssh-action@master
         #   env:
         #     IMAGE_TAG: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-        #   with:
-        #     host: ${{ secrets.EC2_HOST }}
-        #     username: ubuntu
-        #     port: 22
-        #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-        #     script: |
-        #         export AIRFLOW_IMAGE_NAME=${{ env.IMAGE_TAG }}
-        #         export AIRFLOW_UID=$(id -u)
-        #         echo -e "AIRFLOW_UID=$(id -u)" > .env
-        #         cd airflow
+          with:
+            host: ${{ secrets.EC2_HOST }}
+            username: ubuntu
+            port: 22
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            script: |
+                export AIRFLOW_UID=$(id -u)
+                echo -e "AIRFLOW_UID=$(id -u)" > .env
+                cd airflow
 
-        #         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ env.DOCKER_USERNAME }}" --password-stdin
-        #         docker pull ${{ env.IMAGE_TAG }}
-        #         docker-compose down
-        #         docker-compose up -d
+                docker-compose down
+                docker-compose up -d
