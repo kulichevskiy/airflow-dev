@@ -71,8 +71,6 @@ jobs:
 
         - name: Pull the container and restart docker-compose
           uses: appleboy/ssh-action@master
-        #   env:
-        #     IMAGE_TAG: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           with:
             host: ${{ secrets.EC2_HOST }}
             username: ubuntu
@@ -83,5 +81,5 @@ jobs:
                 echo -e "AIRFLOW_UID=$(id -u)" > .env
                 cd airflow
 
-                docker-compose down
-                docker-compose up -d
+                sudo docker-compose down
+                sudo docker-compose up -d
