@@ -48,7 +48,17 @@ jobs:
     steps:
         - name: Checkout code
           uses: actions/checkout@v4       
-
+        - name: Setup SSH
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.EC2_HOST }}
+            username: ubuntu
+            port: 22
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            script: |
+                # Ensure SSH session to the server is set up correctly
+                eval $(ssh-agent -s)
+                ssh-keyscan github.com >> ~/.ssh/known_hosts
         - name: Deploy Code to Server
           uses: appleboy/scp-action@master
           with:
