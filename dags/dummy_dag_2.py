@@ -15,9 +15,9 @@ default_args = {
 
 # Define the DAG, its scheduling, and set it to start in the past
 dag = DAG(
-    'dummy_dag',
+    'dummy_dag_2',
     default_args=default_args,
-    description='A simple dummy DAG',
+    description='Another simple dummy DAG',
     schedule_interval=timedelta(days=1),
     start_date=datetime(2024, 3, 14),
     catchup=False,
