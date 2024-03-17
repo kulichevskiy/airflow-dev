@@ -15,6 +15,7 @@ env:
     IMAGE_NAME: airflow
     EMAIL: alexey.kulichevskiy@gmail.com
     NAME: Alexey Kulichevskiy
+
 jobs:
 #   test:
 #     runs-on: ubuntu-latest
@@ -41,37 +42,22 @@ jobs:
 #           # Add your commands to run tests here
 #           echo "Running tests..."
 
-  build-and-deploy:
+  deploy:
     # needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     steps:
-        # - name: Checkout code
-        #   uses: actions/checkout@v4       
-        # - name: Build and push Docker image
-        #   env:
-        #     IMAGE_TAG: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-        #   run: |
-        #     echo "Image Tag: ${{ env.IMAGE_TAG }}"
-        #     docker build -t ${{ env.IMAGE_TAG }} .
-        #     echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ env.DOCKER_USERNAME }}" --password-stdin
-        #     docker push ${{ env.IMAGE_TAG }}
-        
-        - name: Deploy and update code on the server
-          uses: appleboy/ssh-action@master
+        - name: Checkout code
+          uses: actions/checkout@v4       
+
+        - name: Deploy Code to Server
+          uses: appleboy/scp-action@master
           with:
-              host: ${{ secrets.EC2_HOST }}
-              username: ubuntu
-              port: 22
-              key: ${{ secrets.SSH_PRIVATE_KEY }}
-              script: |
-                # Ensure SSH session to the server is set up correctly
-                eval $(ssh-agent -s)
-                ssh-keyscan github.com >> ~/.ssh/known_hosts
-                
-                # Navigate to the project directory
-                cd airflow
-                
+            host: ${{ secrets.EC2_HOST }}
+            username: ${{ secrets.SERVER_USER }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            port: 22 # or your custom port
+            source: "." # or specify directories/files to copy
+            target: "airflow"        
 
         # - name: Pull the container and restart docker-compose
         #   uses: appleboy/ssh-action@master
