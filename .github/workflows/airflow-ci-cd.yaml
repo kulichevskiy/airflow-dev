@@ -103,4 +103,4 @@ jobs:
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             script: |
               cd /home/ubuntu/airflow
-              sudo docker-compose exec airflow-webserver bash -c "airflow connections import /opt/airflow/connections/connections.json"
+              sudo docker-compose exec -T airflow-webserver bash -c "airflow connections import /opt/airflow/connections/connections.json"
