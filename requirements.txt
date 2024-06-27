@@ -1,5 +1,6 @@
 apache-airflow-providers-amazon
 apache-airflow-providers-google
+apache-airflow-providers-postgres
 pandas
 requests
 s3fs
