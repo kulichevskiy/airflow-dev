@@ -14,7 +14,7 @@ import pandas as pd
 default_kwargs = {
     'owner': 'alexchevsky',
     'depends_on_past': False,
-    'start_date': datetime(2024, 3, 30),
+    'start_date': datetime(2024, 6, 28),
     'retries': 10,
     'retry_delay': timedelta(minutes=1),
     'max_retry_delay': timedelta(minutes=30),
