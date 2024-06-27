@@ -11,7 +11,10 @@ import io
 import pandas as pd
 
 
-config_error_handling = {
+default_kwargs = {
+    'owner': 'alexchevsky',
+    'depends_on_past': False,
+    'start_date': datetime(2024, 3, 30),
     'retries': 10,
     'retry_delay': timedelta(minutes=1),
     'max_retry_delay': timedelta(minutes=30),
@@ -19,28 +22,13 @@ config_error_handling = {
     'email_on_retry': False,
     'retry_exponential_backoff': True,
     'execution_timeout': timedelta(minutes=10),
-}
-
-config_google_sheets = {
     'spreadsheet_id': '1ApYbZ62vmuhM4D1vZ_SvLTZ4_Jx9rOxFBIKB6OJzhfw',
     'range': 'ads_sku!A1',
     'range_all': 'ads_sku!A1:Z',
-}
-
-config_airflow = {
-    'owner': 'alexchevsky',
-    'depends_on_past': False,
-    'start_date': datetime(2024, 3, 30),
-}
-
-config_aws = {
-    'bucket_name': 'chevsky-airflow-data'
-}
-
-default_kwargs = config_google_sheets | config_airflow | config_aws | {
     'date_from': (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d"),
     'date_to': datetime.now().strftime("%Y-%m-%d"),
-    'account_id': 'd75f3950-ff5d-4f4b-b39c-5d6c356fc91f'
+    'account_id': 'd75f3950-ff5d-4f4b-b39c-5d6c356fc91f',
+    'bucket_name': 'chevsky-airflow-data'
 }
 
 
