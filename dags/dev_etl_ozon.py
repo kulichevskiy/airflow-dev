@@ -267,7 +267,7 @@ with DAG(
         default_args=default_kwargs,
         description='Getting Ozon API Data',
         start_date=datetime(2024, 6, 18),
-        schedule_interval='@hourly') as dag:
+        schedule_interval='0 2 * * *') as dag:
 
     task_authenticate = PythonOperator(
         task_id='authenticate',
