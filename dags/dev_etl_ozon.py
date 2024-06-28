@@ -21,7 +21,7 @@ default_kwargs = {
     'email_on_failure': True,
     'email_on_retry': False,
     'retry_exponential_backoff': True,
-    'execution_timeout': timedelta(minutes=10),
+    'execution_timeout': timedelta(minutes=60),
     'spreadsheet_id': '1ApYbZ62vmuhM4D1vZ_SvLTZ4_Jx9rOxFBIKB6OJzhfw',
     'range': 'ads_sku!A1',
     'range_all': 'ads_sku!A1:Z',
