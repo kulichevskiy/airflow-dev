@@ -179,6 +179,13 @@ def get_sku_campaign_stats(**kwargs):
     ]
 
     df['date'] = pd.to_datetime(df['date'], format='%d.%m.%Y')
+    df['updated_at'] = (
+        pd
+        .Timestamp
+        .now(tz='UTC')
+        .tz_convert('Europe/Moscow')
+        .strftime('%Y-%m-%d %H:%M:%S')
+        )
 
     for col in float_columns:
         df[col] = df[col].str.replace(',', '.').astype('float')
@@ -198,6 +205,7 @@ def get_sku_campaign_stats(**kwargs):
         'sku':          'sku',
         'title':        'Название товара',
         'price':        'Цена товара, ₽',
+        'updated_at':   'Посл. обновление'
     }
 
     df = df[[
@@ -212,7 +220,8 @@ def get_sku_campaign_stats(**kwargs):
         'orders',
         'ordersMoney',
         'models',
-        'modelsMoney'
+        'modelsMoney',
+        'updated_at'
     ]].sort_values(['date', 'campaign_id'], ascending=[False, True])
 
     df.columns = [col_names_mapping[c] for c in df.columns]
