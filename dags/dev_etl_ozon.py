@@ -164,7 +164,7 @@ def get_sku_campaign_stats(**kwargs):
                 'campaign_id': campaign_id,
                 # 'campaign_title': data['title']
             }
-            rows = [camp | r for r in data['report']['rows']]
+            rows = [{**camp, **r} for r in data['report']['rows']]
             full_data += rows
 
     df = pd.DataFrame(full_data)
